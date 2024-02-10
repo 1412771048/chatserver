@@ -4,33 +4,26 @@
 #include <signal.h>
 using namespace std;
 
-// 处理服务器ctrl+c结束后，重置user的状态信息
-void resetHandler(int)
-{
+// 服务器异常退出(ctrl+c)，重置用户状态为offline
+void resetHandler(int) {
     ChatService::instance()->reset();
     exit(0);
 }
 
-int main(int argc, char **argv)
-{
-    if (argc < 3)
-    {
-        cerr << "command invalid! example: ./ChatServer 127.0.0.1 6000" << endl;
+int main(int argc, char **argv) {
+    if (argc < 3) {
+        cout << "failed! example: ./ChatServer 127.0.0.1 6000" << endl;
         exit(-1);
     }
+    char* ip = argv[1];
+    unsigned short port = atoi(argv[2]);
 
-    // 解析通过命令行参数传递的ip和port
-    char *ip = argv[1];
-    uint16_t port = atoi(argv[2]);
-
-    signal(SIGINT, resetHandler);
-
-    EventLoop loop;
+    signal(SIGINT, resetHandler); //监听SIGINT(ctrl+c)，后续即可回调处理
+    EventLoop loop; 
     InetAddress addr(ip, port);
     ChatServer server(&loop, addr, "ChatServer");
+    server.start(); //开启服务器
+    loop.loop(); //开启事件循环
 
-    server.start();
-    loop.loop();
 
-    return 0;
 }
