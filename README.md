@@ -50,7 +50,7 @@ stream {
         tcp_nodelay on;
     }
 }
-启动：sudo /usr/local/nginx/sbin/nginx
+平滑重启：sudo /usr/local/nginx/sbin/nginx -s reload
 
 ```
 ### 安装redis及其开发包
