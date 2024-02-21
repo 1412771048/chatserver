@@ -68,7 +68,7 @@ sudo ldconfig /usr/local/lib && cd .. && rm -rf hiredis/
 ## 3. 运行
 ```
 cd bin/
-启动2台服务器：
+以配置2台服务器为例：
 ./chatserver 127.0.0.1 6000 
 ./chatserver 127.0.0.1 6001
 客户端连接nginx:
